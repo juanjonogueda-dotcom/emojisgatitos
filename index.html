@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cat Collection</title>
+  <title>Emojis de Gatitos</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -178,10 +178,10 @@
 <div class="wrap">
 
   <header>
-    <h1>Cat Collection</h1>
-    <p class="tagline">click any cat to copy</p>
+    <h1>Colección de Gatitos</h1>
+    <p class="tagline">haz clic en cualquier gatito para copiarlo</p>
     <nav>
-      <a href="#sec-generated" id="nav-gen">generated</a>
+      <a href="#sec-generated" id="nav-gen">generados</a>
       <a href="#sec-kaomoji">kaomoji</a>
       <a href="#sec-ascii">ascii</a>
       <a href="#sec-braille">braille</a>
@@ -190,11 +190,11 @@
   </header>
 
   <div class="generate-wrap">
-    <button class="btn-generate">generate a cat</button>
+    <button class="btn-generate">generar un gatito</button>
   </div>
 
   <section class="section" id="sec-generated">
-    <p class="section-label">generated</p>
+    <p class="section-label">generados</p>
     <div class="grid" id="grid-generated"></div>
   </section>
 
@@ -258,7 +258,7 @@ const data = {
   emoji: [
     `🐱✨`,`🐈‍⬛💫`,`😺🌸`,`🐾💕`,`🐱🌙⭐`,`😸✨💖`,`🐈🎀`,`😻💝`,
     `🐱🍵`,`🐈‍⬛🌑`,`😺🐟`,`🐾🌿`,`🐱💤`,`😿🌧️`,`🐱🧶`,`😼😈`,
-    `🐈🌺🌸`,`🐱☕✨`,`😸🌈`,`🐾✨💫⭐`,`🐱�af⁶`,`😺🍣`,`🐈🍂`,`🐱🪷`,
+    `🐈🌺🌸`,`🐱☕✨`,`😸🌈`,`🐾✨💫⭐`,`🐱🦋`,`😺🍣`,`🐈🍂`,`🐱🪷`,
   ],
 };
 
@@ -287,7 +287,7 @@ function makeCard(text, animate = false) {
 
   const flash = document.createElement('span');
   flash.className = 'flash';
-  flash.textContent = 'copied';
+  flash.textContent = '¡copiado!';
 
   const art = document.createElement('span');
   art.className = 'art';
