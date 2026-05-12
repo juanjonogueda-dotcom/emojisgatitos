@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat ASCII Collection 🐱</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface-hover: #222222;
+      --border: #2a2a2a;
+      --border-hover: #3a3a3a;
+      --text: #e8e8e8;
+      --text-muted: #666;
+      --accent: #4ade80;
+      --accent-dim: rgba(74, 222, 128, 0.15);
+      --accent-border: rgba(74, 222, 128, 0.5);
+      --pill-bg: #1e1e1e;
+      --pill-active: #2a2a2a;
+    }
+
+    html { background: var(--bg); color: var(--text); font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace; }
+
+    body {
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    header {
+      margin-bottom: 2.5rem;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .pill:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .pill.active {
+      background: var(--accent-dim);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    .btn-random {
+      margin-left: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .btn-random:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+
+    .btn-random:active {
+      transform: scale(0.97);
+    }
+
+    /* ── Count ── */
+    .count {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      max-width: 480px;
+      flex: 0 0 auto;
+      user-select: none;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+    }
+
+    .card:active {
+      transform: scale(0.97);
+    }
+
+    .card.copied {
+      border-color: var(--accent-border) !important;
+      background: var(--accent-dim) !important;
+      animation: flash 0.3s ease;
+    }
+
+    .card.highlighted {
+      border-color: var(--accent-border);
+      box-shadow: 0 0 0 1px var(--accent-border), 0 0 24px rgba(74, 222, 128, 0.1);
+    }
+
+    @keyframes flash {
+      0%   { background: rgba(74, 222, 128, 0.35); }
+      100% { background: var(--accent-dim); }
+    }
+
+    .card pre,
+    .card .text {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      white-space: pre;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .card .text {
+      font-size: 1.2rem;
+    }
+
+    .copied-label {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.6rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+    }
+
+    .card.copied .copied-label { opacity: 1; }
+
+    .cat-label {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.6rem;
+      align-self: flex-end;
+    }
+
+    /* hide label while copied */
+    .card.copied .cat-label { opacity: 0; }
+
+    /* ── Empty state ── */
+    .empty {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 3rem 0;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>cat ascii collection</h1>
+  <p class="subtitle">click any card to copy · random picks &amp; copies one for you</p>
+</header>
+
+<div class="controls">
+  <div class="filter-pills">
+    <button class="pill active" data-filter="all">All</button>
+    <button class="pill" data-filter="kaomoji">Kaomoji</button>
+    <button class="pill" data-filter="ascii-art">ASCII Art</button>
+    <button class="pill" data-filter="braille">Braille</button>
+    <button class="pill" data-filter="emoji">Emoji</button>
+  </div>
+  <button class="btn-random">⚄ Random</button>
+</div>
+
+<p class="count"></p>
+
+<div class="grid"></div>
+
+<script>
+const cats = [
+  // ── KAOMOJI ──────────────────────────────────────────────────
+  { id:  1, art: `₍ᐢ•ﻌ•ᐢ₎`,           category: 'kaomoji' },
+  { id:  2, art: `(=^･ω･^=)`,          category: 'kaomoji' },
+  { id:  3, art: `ฅ^•ﻌ•^ฅ`,           category: 'kaomoji' },
+  { id:  4, art: `(=^▽^=)`,            category: 'kaomoji' },
+  { id:  5, art: `ヾ(=^･ω･^=)丿`,      category: 'kaomoji' },
+  { id:  6, art: `(=^♡ω♡^=)`,         category: 'kaomoji' },
+  { id:  7, art: `/ᐠ｡ꞈ｡ᐟ\\`,          category: 'kaomoji' },
+  { id:  8, art: `≽^•⩊•^≼`,           category: 'kaomoji' },
+  { id:  9, art: `(^・ω・^ )`,         category: 'kaomoji' },
+  { id: 10, art: `(ΦωΦ)`,             category: 'kaomoji' },
+  { id: 11, art: `(=\`ω´=)`,          category: 'kaomoji' },
+  { id: 12, art: `≽^◡^≼`,             category: 'kaomoji' },
+  { id: 13, art: `^ↀᴥↀ^`,             category: 'kaomoji' },
+  { id: 14, art: `(=ↀωↀ=)`,           category: 'kaomoji' },
+  { id: 15, art: `(^._.^)ﾉ`,          category: 'kaomoji' },
+  { id: 16, art: `/ᐠ–ꞈ–ᐟ\\`,         category: 'kaomoji' },
+  { id: 17, art: `(=^‥^=)`,           category: 'kaomoji' },
+  { id: 18, art: `(=^･^=)`,           category: 'kaomoji' },
+  { id: 19, art: `ฅ(ᐢ•ﻌ•ᐢ)ฅ`,        category: 'kaomoji' },
+  { id: 20, art: `(=^-ω-^=)`,         category: 'kaomoji' },
+  { id: 21, art: `(^=◕ᴥ◕=^)`,        category: 'kaomoji' },
+  { id: 22, art: `(=^..^=)∫`,         category: 'kaomoji' },
+  { id: 23, art: `(^..^)ﾉ`,           category: 'kaomoji' },
+  { id: 24, art: `ฅ•ﻌ•ฅ`,            category: 'kaomoji' },
+  { id: 25, art: `(=①ω①=)`,          category: 'kaomoji' },
+  { id: 26, art: `(^˘ᗜ˘^)`,          category: 'kaomoji' },
+  { id: 27, art: `(/>_<)/`,           category: 'kaomoji' },
+  { id: 28, art: `(=^·^=)`,           category: 'kaomoji' },
+  { id: 29, art: `(=^◡^=)`,           category: 'kaomoji' },
+  { id: 30, art: `(=TωT=)`,           category: 'kaomoji' },
+  { id: 31, art: `(=^ᆽ^=)`,          category: 'kaomoji' },
+  { id: 32, art: `(=˘ᆽ˘=)`,          category: 'kaomoji' },
+  { id: 33, art: `(^o.o^)`,           category: 'kaomoji' },
+  { id: 34, art: `(= ; ω ; =)`,       category: 'kaomoji' },
+  { id: 35, art: `ヽ(=^･ω･^=)丿`,    category: 'kaomoji' },
+  { id: 36, art: `U^ェ^U`,            category: 'kaomoji' },
+  { id: 37, art: `(^•ω•^)`,          category: 'kaomoji' },
+  { id: 38, art: `/ᐠ. ᴗ .ᐟ\\`,       category: 'kaomoji' },
+  { id: 39, art: `(⁰▿⁰)`,            category: 'kaomoji' },
+  { id: 40, art: `(ฅ^ω^ฅ)`,          category: 'kaomoji' },
+
+  // ── ASCII ART ─────────────────────────────────────────────────
+  { id: 41, art:
+`　　　／＞　　フ
+　　　|　_　 _|
+　　／\` ミ_xノ
+　　/　　　　 |
+　/　 ヽ　　 ﾉ
+　│　　|　|　|
+／￣|　　|　|　|
+(￣ヽ＿_ヽ_)__)
+　＼二つ`, category: 'ascii-art' },
+
+  { id: 42, art:
+`/\\_/\\
+= ( °w° ) =
+  )   (
+ (__  __)`, category: 'ascii-art' },
+
+  { id: 43, art:
+` /\\_/\\
+( o.o )
+ > ^ <`, category: 'ascii-art' },
+
+  { id: 44, art:
+`  /\\  /\\
+ ( o  o )
+ =( Y )=
+  )   (
+ (_)-(_)`, category: 'ascii-art' },
+
+  { id: 45, art:
+`   /\\_____/\\
+  /  o   o  \\
+ ( ==  ^  == )
+  )         (
+ (           )
+( (  )   (  ) )
+(__(__)___(__)__)`, category: 'ascii-art' },
+
+  { id: 46, art:
+`^―^
+(・ω・)
+/ ⊃🐟`, category: 'ascii-art' },
+
+  { id: 47, art:
+`  ∧＿∧
+（｡・ω・｡)つ━☆
+⊂　　 ノ 　　　･゜+
+しーＪ　　　°。+ *´¨)`, category: 'ascii-art' },
+
+  { id: 48, art:
+`  /\\  /\\
+=( ^ω^)=
+  )   (
+ (__)__)`, category: 'ascii-art' },
+
+  // ── BRAILLE ──────────────────────────────────────────────────
+  { id: 49, art:
+`⠀⠀⣿⠛⢳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣿⡇⠀⠀⠹⣷⣄⡀⠀⠀⠀⠀⠀
+⠀⠀⣿⣿⠀⢤⠀⠹⣿⣿⣄⠀⠀⠀⠀
+⠀⠀⣿⣿⡄⠸⣦⡀⠹⣿⣿⣆⠀⠀⠀
+⠀⠀⠘⣿⣧⡀⠈⢿⣦⣿⣿⣿⡇⠀⠀
+⠀⠀⠀⠹⣿⣷⣦⣀⣿⣿⣿⣿⠃⠀⠀
+⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⠋⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⠙⠿⣿⠿⠋⠀⠀⠀⠀`, category: 'braille' },
+
+  { id: 50, art:
+`⠀⠀⠀⠀⣠⡴⠶⣄⠀⠀⠀⣠⠶⢦⣄⠀
+⠀⠀⢀⣾⠋⠀⠀⢹⡀⠀⣰⠏⠀⠀⠈⢷
+⠀⠀⣾⠁⠀⠀⠀⠈⣷⣾⠏⠀⠀⠀⠀⠘⣇
+⠀⠀⣿⣦⡀⠀⠀⣀⣽⣿⣄⡀⠀⢀⣴⣿⡇
+⠀⠀⠘⠋⠙⠓⠚⠋⠉⠉⠙⠛⠚⠙⠛⠛⠃
+⠀⠀⣸⠷⣦⠀⢠⡾⠶⠶⢷⡄⠀⣴⡾⢿⣧
+⠀⠀⡟⠀⢹⣠⡿⠀⠀⠀⠀⠻⣄⣿⠁⠀⣿
+⠀⠀⢿⡀⢀⣿⡇⠀⡀⢀⠀⢸⣿⠃⠀⢀⡿
+⠀⠀⠈⠙⠛⠃⠀⠙⠓⠚⠃⠀⠙⠛⠛⠋⠁`, category: 'braille' },
+
+  { id: 51, art:
+`⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀
+⠀⠀⠀⣴⠟⠉⠀⠀⠉⠻⣦⠀⠀⠀
+⠀⠀⣾⠏⠀⣿⠀⣿⠀⠀⠘⣷⠀⠀
+⠀⢸⣿⠀⠀⠉⠀⠉⠀⠀⠀⣿⡇⠀
+⠀⢸⣿⡄⠀⠀⠀⠀⠀⠀⢠⣿⡇⠀
+⠀⠀⢿⣧⣀⠀⣀⣀⠀⣀⣸⡿⠀⠀
+⠀⠀⠀⠙⠿⣿⣿⣿⣿⠿⠛⠀⠀⠀
+⠀⠀⠀⠀⠀⠉⠉⠉⠉⠀⠀⠀⠀⠀`, category: 'braille' },
+
+  // ── EMOJI COMBOS ─────────────────────────────────────────────
+  { id: 52, art: `🐱✨`,              category: 'emoji' },
+  { id: 53, art: `🐈‍⬛💫`,           category: 'emoji' },
+  { id: 54, art: `😺🌸`,             category: 'emoji' },
+  { id: 55, art: `🐾💕`,             category: 'emoji' },
+  { id: 56, art: `🐱🌙⭐`,           category: 'emoji' },
+  { id: 57, art: `😸✨💖`,           category: 'emoji' },
+  { id: 58, art: `🐈🎀`,             category: 'emoji' },
+  { id: 59, art: `😻💝`,             category: 'emoji' },
+  { id: 60, art: `🐱🍵`,             category: 'emoji' },
+  { id: 61, art: `🐈‍⬛🌑`,          category: 'emoji' },
+  { id: 62, art: `😺🐟`,             category: 'emoji' },
+  { id: 63, art: `🐾🌿`,             category: 'emoji' },
+  { id: 64, art: `🐱💤`,             category: 'emoji' },
+  { id: 65, art: `😿🌧️`,            category: 'emoji' },
+  { id: 66, art: `🐱🧶`,             category: 'emoji' },
+  { id: 67, art: `😼😈`,             category: 'emoji' },
+  { id: 68, art: `🐈🌺🌸`,           category: 'emoji' },
+  { id: 69, art: `🐱☕✨`,           category: 'emoji' },
+  { id: 70, art: `😸🌈`,             category: 'emoji' },
+  { id: 71, art: `🐾✨💫⭐`,         category: 'emoji' },
+];
+
+let currentFilter = 'all';
+let visibleCats = [...cats];
+
+const grid = document.querySelector('.grid');
+const countEl = document.querySelector('.count');
+
+function filteredCats() {
+  return currentFilter === 'all' ? cats : cats.filter(c => c.category === currentFilter);
+}
+
+function isMultiline(art) {
+  return art.includes('\n');
+}
+
+function renderGrid() {
+  visibleCats = filteredCats();
+  countEl.textContent = `${visibleCats.length} cats`;
+  grid.innerHTML = '';
+
+  visibleCats.forEach(cat => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = cat.id;
+
+    const label = document.createElement('span');
+    label.className = 'copied-label';
+    label.textContent = 'Copied!';
+
+    let content;
+    if (isMultiline(cat.art)) {
+      content = document.createElement('pre');
+      content.textContent = cat.art;
+    } else {
+      content = document.createElement('div');
+      content.className = 'text';
+      content.textContent = cat.art;
+    }
+
+    const catLabel = document.createElement('span');
+    catLabel.className = 'cat-label';
+    catLabel.textContent = cat.category;
+
+    card.appendChild(label);
+    card.appendChild(content);
+    card.appendChild(catLabel);
+
+    card.addEventListener('click', () => copyCard(card, cat.art));
+    grid.appendChild(card);
+  });
+}
+
+function copyCard(card, art) {
+  navigator.clipboard.writeText(art).catch(() => {
+    // fallback for browsers without clipboard API
+    const ta = document.createElement('textarea');
+    ta.value = art;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+
+  // Remove any existing copied state
+  document.querySelectorAll('.card.copied').forEach(c => c.classList.remove('copied'));
+
+  card.classList.add('copied');
+  setTimeout(() => card.classList.remove('copied'), 1000);
+}
+
+function highlightCard(cat) {
+  document.querySelectorAll('.card.highlighted').forEach(c => c.classList.remove('highlighted'));
+
+  // Make sure this cat's filter is visible
+  if (currentFilter !== 'all' && currentFilter !== cat.category) {
+    setFilter('all');
+  } else {
+    renderGrid();
+  }
+
+  requestAnimationFrame(() => {
+    const card = grid.querySelector(`[data-id="${cat.id}"]`);
+    if (!card) return;
+    card.classList.add('highlighted');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    copyCard(card, cat.art);
+
+    setTimeout(() => card.classList.remove('highlighted'), 2000);
+  });
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.filter === filter);
+  });
+  renderGrid();
+}
+
+// Filter pills
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', () => setFilter(pill.dataset.filter));
+});
+
+// Random button
+document.querySelector('.btn-random').addEventListener('click', () => {
+  const pool = filteredCats();
+  if (!pool.length) return;
+  const cat = pool[Math.floor(Math.random() * pool.length)];
+  highlightCard(cat);
+});
+
+// Initial render
+renderGrid();
+</script>
+</body>
+</html>
