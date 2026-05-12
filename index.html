@@ -185,7 +185,6 @@
       <a href="#sec-kaomoji">kaomoji</a>
       <a href="#sec-ascii">ascii</a>
       <a href="#sec-braille">braille</a>
-      <a href="#sec-emoji">emoji</a>
     </nav>
   </header>
 
@@ -211,11 +210,6 @@
   <section class="section" id="sec-braille">
     <p class="section-label">braille</p>
     <div class="grid" id="grid-braille"></div>
-  </section>
-
-  <section class="section" id="sec-emoji">
-    <p class="section-label">emoji</p>
-    <div class="grid" id="grid-emoji"></div>
   </section>
 
 </div>
@@ -245,20 +239,12 @@ const data = {
   ],
 
   braille: [
-    `⠀⠡┖╒╒╲⡄⠀⠀⠀⠡┖╒╒╲⡄\n⢰⠃⠀⠀⠀⠀⠘⡄⠀⢰⠃⠀⠀⠀⠀⠘⡄\n⠈┓⢤⣀⣀⠤┚⠁⠀⠈┓⢤⣀⣀⠤┚⠁\n⠀⠀⢸⢇⠏⠏⠏⠏⠏⠏⠏⢹⢇⠀⠀⠀\n⠀⠀⢸⣧⠀⣀⠀⠠⠀⠀⣀⣸⢇⠀⠀⠀\n⠀⠀⠈⢻⣄⠈┘⠋⠁⢠⣄⢿⠁⠀⠀⠀\n⠀⠀⠀⠀⠀⠉┓╒╒┋⠀⠀⠀⠀⠀⠀`,
-    `⠀⠀⠀⠀⢠⣤┖╒╒╲⣤⡄⠀⠀\n⠀⠀⠀⣴⠋⠀⠀⠀⠀⠀⠀⢹⡆⠀\n⠀⠀⢰⢇⠀⣿⠀⠀⣿⠀⠀⢸⢇⠀\n⠀⠀⢸⢇⠀⠉⠀⠀⠉⠀⠀⢸⢇⠀\n⠀⠀⢸⣧⠀⠀⠀⠤⠀⠀⠀⣸⢇⠀\n⠀⠀⠀⢻⣦⣄⣀⣀⣀⣄⣴⠟⠀⠀\n⠀⠀⠀⠀⢸⢇⠀⠀⠀⢸⢇⠀⠀⠀\n⠀⠀⠀⠀⠘⠃⠀⠀⠀⠘⠃⠀⠀⠀`,
-    `⠀⠀⢠⣤╴╶╶⣤⡄⠀⠀⠀⠀\n⠀⣴⠋⠀⠀⠀⠀⠀⠙⣦⠀⠀⠀\n⠀⡟⠀⢰⡆⠀⢰⡆⠀⢻⡄⠀⠀\n⢠⡷⣤⠈┛⠀┛⠁⣤⡾⢧⠠⠀\n⠘⠀⠈┙⣲⣶⣶⡟⠋⠁⠀⠃⠀\n⠀⠀⠀⢠⡿┛┛⢿⣄⠀⠀⠀⠀\n⠀⠀⠀⢸⢇⠀⠀⢸⢇⠀⠀⠀⠀\n⠀⠀⠀⠘⠃⠀⠀⠘⠃⠀⠀⠀⠀`,
-    `⠀⠀⣠⡾┛┛┛┛⢿⣄⠀⠀\n⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⢇⠀\n⢠⣿┛⢇⣿┛⢻⣿⡟┛⣿⡄\n⢸⣿⠀⢇⣿⠀⢸⣿⢇⠀⣿⢇\n⢸⣿⣄⣀⣿⠀⢸⣿⣧⣀⣿⢇\n⠀⠙┛┛┛⠀⠀┛┛┛⠋⠀`,
-    `⠀⠀⠀⣠╴╒╒╶⣄⠀⠀\n⠀⢠⡾⠁⠀⠀⠀⠀⠈⢷⠠\n⠀⡾⠀⣀⣤⣤⣀⠀⠀⠘⣧\n⠀⣿⠀┛⠁⠈┛⠀⠀⠀⣿\n⠀⢿⡄⠀⠀⠀⠀⠀⠀⢠⡿\n⠀⠀⠙╷⣦⣤⣴⡾⠋⠀⠀`,
-    `⠀⠀⣀⠤╰╰╰╰⣄⠠⠀⠀⠀⠀⠀\n⣴⠟⠁⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⠀\n⢇⠀⣿⠀⠀⣿⠀⠀⠀⠀⠈╳⣄⠀⠀\n⢇⠀⠉⠀⠀⠉⠀⠀⠀⠀⠀⠀⢸⢇⠀\n⢷⣄⠀⠀⠀⣀⣀⠀⠀⠀⠀⣠⡾⠁⠀\n⠀⠉┛┛⠋⠉⠉┙┛┛┛⠉⠀⠀⠀`,
-    `⠀⠦╒⢲⠀⠦╒⢲⠀\n⠀⢇⠀⢸⠀⢇⠀⢸⠀\n╒┚╒⢻⣿⣿⡟╒╒\n⠀⣤⠀⢸⣿⢇⠀⣤⠀\n⠀⢿⠀⠘⢿⢿⠃⢿⠀`,
-    `⠀⠀⠀⠀⠀⠀⠀⠀⠰⠋\n⠀⠀⠀⠀⠀⠀⠀⢸⠃\n⠀⢠⣤╒╒╒⣤⠠⢇\n⠀⡟⠀⣿⠀⣿⠀⢹⠇\n⠀⢇⠀⠉⠀⠉⠀⢸\n⠀⣧⠠⠀⠀⠀⢠⣾\n⠀⠈┛╷⣦⡾┛⠁`,
-  ],
-
-  emoji: [
-    `🐱✨`,`🐈‍⬛💫`,`😺🌸`,`🐾💕`,`🐱🌙⭐`,`😸✨💖`,`🐈🎀`,`😻💝`,
-    `🐱🍵`,`🐈‍⬛🌑`,`😺🐟`,`🐾🌿`,`🐱💤`,`😿🌧️`,`🐱🧶`,`😼😈`,
-    `🐈🌺🌸`,`🐱☕✨`,`😸🌈`,`🐾✨💫⭐`,`🐱🦋`,`😺🍣`,`🐈🍂`,`🐱🪷`,
+    `⡠⠊⠉⠉⠉⠑⢄\n⡏⠀⠀⠀⠀⠀⢹\n⡇⠠⡆⠀⢰⠄⢸\n⡇⠀⠙⠀⠛⠀⢸\n⢇⠀⢀⣀⡀⠀⡸\n⠀⠑⠃⠀⠘⠒⠀`,
+    `⣠⠀⠀⠀⠀⣠\n⢿⣦⣀⣀⣴⡿\n⠸⣿⠒⠒⣿⠇\n⠀⣿⣀⣀⣿⠀\n⠀⠙⣿⣿⠋⠀\n⠀⠀⠿⠿⠀⠀`,
+    `⠀⡰⠁⠀⠀⠈⢆\n⣀⣸⠀⠀⠀⣇⣀\n⠀⢸⠀⠠⠀⡇⠀\n⠀⢸⠀⠀⠀⡇⠀\n⠀⢸⡀⠀⢀⡇⠀\n⠀⠀⠉⠒⠒⠁⠀`,
+    `⡰⠉⠑⠀⠀⠑⠉⢆\n⠸⡄⠀⠀⠀⠀⢠⠇\n⠀⡇⡤⠀⠤⡄⢸⠀\n⠀⡇⠑⠀⠀⠑⢸⠀\n⠀⣇⠀⢀⡀⠀⣸⠀\n⠀⠀⠓⠁⠈⠓⠀⠀`,
+    `⠀⠀⣠⠤⠤⣄⠀\n⠀⣼⠁⠀⠈⢧⠀\n⠀⣿⠀⠠⠀⣿⠀\n⠀⣿⠀⠀⠀⣿⠀\n⠀⢻⣄⣀⣠⡟⠀\n⠀⠀⠙⠛⠛⠁⠀`,
+    `⢀⡀⠀⠀⠀⠀⢀⡀\n⣿⣿⣦⠀⠀⣴⣿⣿\n⠸⣿⠀⠀⠀⠀⣿⠇\n⠀⣿⣤⠀⠀⣤⣿⠀\n⠀⠸⣿⣄⣠⣿⠇⠀\n⠀⠀⠈⠻⠟⠁⠀⠀`,
   ],
 };
 
@@ -321,7 +307,6 @@ function render(key, gridId) {
 render('kaomoji', 'grid-kaomoji');
 render('ascii',   'grid-ascii');
 render('braille', 'grid-braille');
-render('emoji',   'grid-emoji');
 
 const genSection = document.getElementById('sec-generated');
 const genGrid    = document.getElementById('grid-generated');
@@ -330,8 +315,8 @@ const navGen     = document.getElementById('nav-gen');
 document.querySelector('.btn-generate').addEventListener('click', () => {
   const card = makeCard(generate(), true);
   genGrid.prepend(card);
-  genSection.style.display = '';
-  navGen.style.display = '';
+  genSection.style.display = 'block';
+  navGen.style.display = 'block';
   genSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 </script>
