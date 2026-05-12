@@ -3,136 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cat ASCII Collection 🐱</title>
+  <title>Cat Collection</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --surface-hover: #222222;
-      --border: #2a2a2a;
-      --border-hover: #3a3a3a;
-      --text: #e8e8e8;
-      --text-muted: #666;
-      --accent: #4ade80;
-      --accent-dim: rgba(74, 222, 128, 0.15);
-      --accent-border: rgba(74, 222, 128, 0.5);
-      --pill-bg: #1e1e1e;
-      --pill-active: #2a2a2a;
+      --bg:            #f6f1ea;
+      --bg-alt:        #ede7dc;
+      --surface:       #f0ebe2;
+      --surface-hover: #e8e0d4;
+      --border:        #d8cfc2;
+      --border-hover:  #c2b49e;
+      --text:          #2b1d0e;
+      --text-mid:      #6b5030;
+      --text-muted:    #a8906f;
+      --accent:        #7a5230;
+      --accent-light:  #c49a6c;
+      --copy-bg:       rgba(122, 82, 48, 0.12);
+      --copy-border:   rgba(122, 82, 48, 0.55);
+      --sidebar-w:     220px;
     }
 
-    html { background: var(--bg); color: var(--text); font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace; }
+    html {
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
 
     body {
+      font-family: 'Lora', Georgia, 'Times New Roman', serif;
       min-height: 100vh;
-      padding: 2rem 1.5rem 4rem;
-      max-width: 1400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Page shell ── */
+    .page {
+      display: flex;
+      align-items: flex-start;
+      max-width: 1280px;
       margin: 0 auto;
+      width: 100%;
+      padding: 0 1.5rem;
+      gap: 2.5rem;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      min-width: 0;
+      padding: 3.5rem 0 8rem;
     }
 
     /* ── Header ── */
     header {
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
     }
 
     h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: -0.025em;
       color: var(--text);
-      margin-bottom: 0.4rem;
+      line-height: 1.2;
+      font-style: italic;
     }
 
     .subtitle {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
+      font-style: normal;
       font-weight: 400;
+      margin-top: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    /* ── Controls ── */
-    .controls {
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-style: normal;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
     }
 
-    .filter-pills {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.72rem;
-      font-weight: 500;
-      padding: 0.35rem 0.8rem;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .pill:hover {
-      border-color: var(--border-hover);
-      color: var(--text);
-    }
-
-    .pill.active {
-      background: var(--accent-dim);
-      border-color: var(--accent-border);
-      color: var(--accent);
-    }
-
-    .btn-random {
-      margin-left: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 0.45rem 1.1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      white-space: nowrap;
-    }
-
-    .btn-random:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-hover);
-    }
-
-    .btn-random:active {
-      transform: scale(0.97);
-    }
-
-    /* ── Count ── */
-    .count {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
+    .section-count {
+      font-size: 0.65rem;
+      color: var(--border-hover);
+      font-weight: 400;
     }
 
     /* ── Grid ── */
     .grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.6rem;
       align-items: flex-start;
     }
 
@@ -140,390 +122,506 @@
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.1rem;
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
       cursor: pointer;
-      transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+      transition: border-color 0.12s, background 0.12s, transform 0.08s;
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-width: 120px;
-      max-width: 480px;
-      flex: 0 0 auto;
       user-select: none;
+      flex: 0 0 auto;
     }
 
     .card:hover {
-      border-color: var(--border-hover);
       background: var(--surface-hover);
+      border-color: var(--border-hover);
     }
 
-    .card:active {
-      transform: scale(0.97);
-    }
+    .card:active { transform: scale(0.96); }
 
     .card.copied {
-      border-color: var(--accent-border) !important;
-      background: var(--accent-dim) !important;
-      animation: flash 0.3s ease;
+      border-color: var(--copy-border) !important;
+      background: var(--copy-bg) !important;
     }
 
-    .card.highlighted {
-      border-color: var(--accent-border);
-      box-shadow: 0 0 0 1px var(--accent-border), 0 0 24px rgba(74, 222, 128, 0.1);
-    }
-
-    @keyframes flash {
-      0%   { background: rgba(74, 222, 128, 0.35); }
-      100% { background: var(--accent-dim); }
+    .card.generated {
+      border-style: dashed;
+      border-color: var(--accent-light);
     }
 
     .card pre,
-    .card .text {
+    .card .art {
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.9rem;
-      line-height: 1.5;
+      font-size: 0.88rem;
+      line-height: 1.55;
       white-space: pre;
-      text-align: center;
+      text-align: left;
       color: var(--text);
     }
 
-    .card .text {
-      font-size: 1.2rem;
-    }
+    .card .art { font-size: 1.15rem; }
 
     .copied-label {
       position: absolute;
-      top: 0.4rem;
-      right: 0.6rem;
-      font-size: 0.62rem;
+      top: 0.35rem;
+      right: 0.55rem;
+      font-size: 0.58rem;
       font-weight: 600;
       color: var(--accent);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity 0.12s;
       pointer-events: none;
     }
 
     .card.copied .copied-label { opacity: 1; }
 
-    .cat-label {
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-top: 0.6rem;
-      align-self: flex-end;
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 3.5rem;
+      padding: 3.5rem 0 3rem;
+      align-self: flex-start;
     }
 
-    /* hide label while copied */
-    .card.copied .cat-label { opacity: 0; }
+    .sidebar-inner {
+      border-left: 1px solid var(--border);
+      padding-left: 1.5rem;
+    }
 
-    /* ── Empty state ── */
-    .empty {
+    .sidebar-label {
+      font-size: 0.62rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--text-muted);
-      font-size: 0.85rem;
-      padding: 3rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 0.3rem 0;
+      transition: color 0.12s;
+      border-left: 2px solid transparent;
+      margin-left: -1.5rem;
+      padding-left: 1.35rem;
+    }
+
+    .nav-item a:hover { color: var(--text-mid); }
+
+    .nav-item.active a {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .nav-count {
+      font-size: 0.6rem;
+      color: var(--border-hover);
+    }
+
+    .btn-generate {
       width: 100%;
+      background: var(--text);
+      border: none;
+      color: var(--bg);
+      font-family: 'Lora', serif;
+      font-size: 0.82rem;
+      font-style: italic;
+      padding: 0.6rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.08s;
       text-align: center;
+    }
+
+    .btn-generate:hover { opacity: 0.85; }
+    .btn-generate:active { transform: scale(0.97); }
+
+    .generate-hint {
+      font-size: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── Section scroll highlight ── */
+    .section-title.active-section {
+      color: var(--accent);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .sidebar { display: none; }
+      .page { padding: 0 1rem; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>cat ascii collection</h1>
-  <p class="subtitle">click any card to copy · random picks &amp; copies one for you</p>
-</header>
+<div class="page">
 
-<div class="controls">
-  <div class="filter-pills">
-    <button class="pill active" data-filter="all">All</button>
-    <button class="pill" data-filter="kaomoji">Kaomoji</button>
-    <button class="pill" data-filter="ascii-art">ASCII Art</button>
-    <button class="pill" data-filter="braille">Braille</button>
-    <button class="pill" data-filter="emoji">Emoji</button>
-  </div>
-  <button class="btn-random">⚄ Random</button>
+  <main>
+    <header>
+      <h1>cat collection.</h1>
+      <p class="subtitle">click any card to copy</p>
+    </header>
+
+    <section class="section" id="sec-generated" style="display:none">
+      <h2 class="section-title">
+        Generated
+        <span class="section-count" id="gen-count"></span>
+      </h2>
+      <div class="grid" id="grid-generated"></div>
+    </section>
+
+    <section class="section" id="sec-kaomoji">
+      <h2 class="section-title">
+        Kaomoji
+        <span class="section-count" id="count-kaomoji"></span>
+      </h2>
+      <div class="grid" id="grid-kaomoji"></div>
+    </section>
+
+    <section class="section" id="sec-ascii-art">
+      <h2 class="section-title">
+        ASCII Art
+        <span class="section-count" id="count-ascii-art"></span>
+      </h2>
+      <div class="grid" id="grid-ascii-art"></div>
+    </section>
+
+    <section class="section" id="sec-braille">
+      <h2 class="section-title">
+        Braille
+        <span class="section-count" id="count-braille"></span>
+      </h2>
+      <div class="grid" id="grid-braille"></div>
+    </section>
+
+    <section class="section" id="sec-emoji">
+      <h2 class="section-title">
+        Emoji
+        <span class="section-count" id="count-emoji"></span>
+      </h2>
+      <div class="grid" id="grid-emoji"></div>
+    </section>
+  </main>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <p class="sidebar-label">Index</p>
+      <ul class="nav-list">
+        <li class="nav-item" data-target="sec-kaomoji">
+          <a href="#sec-kaomoji">kaomoji <span class="nav-count" id="nav-count-kaomoji"></span></a>
+        </li>
+        <li class="nav-item" data-target="sec-ascii-art">
+          <a href="#sec-ascii-art">ascii art <span class="nav-count" id="nav-count-ascii-art"></span></a>
+        </li>
+        <li class="nav-item" data-target="sec-braille">
+          <a href="#sec-braille">braille <span class="nav-count" id="nav-count-braille"></span></a>
+        </li>
+        <li class="nav-item" data-target="sec-emoji">
+          <a href="#sec-emoji">emoji <span class="nav-count" id="nav-count-emoji"></span></a>
+        </li>
+      </ul>
+
+      <button class="btn-generate">Generate cat</button>
+      <p class="generate-hint">creates a new random cat<br>and adds it to the top</p>
+    </div>
+  </aside>
+
 </div>
 
-<p class="count"></p>
-
-<div class="grid"></div>
-
 <script>
-const cats = [
-  // ── KAOMOJI ──────────────────────────────────────────────────
-  { id:  1, art: `₍ᐢ•ﻌ•ᐢ₎`,           category: 'kaomoji' },
-  { id:  2, art: `(=^･ω･^=)`,          category: 'kaomoji' },
-  { id:  3, art: `ฅ^•ﻌ•^ฅ`,           category: 'kaomoji' },
-  { id:  4, art: `(=^▽^=)`,            category: 'kaomoji' },
-  { id:  5, art: `ヾ(=^･ω･^=)丿`,      category: 'kaomoji' },
-  { id:  6, art: `(=^♡ω♡^=)`,         category: 'kaomoji' },
-  { id:  7, art: `/ᐠ｡ꞈ｡ᐟ\\`,          category: 'kaomoji' },
-  { id:  8, art: `≽^•⩊•^≼`,           category: 'kaomoji' },
-  { id:  9, art: `(^・ω・^ )`,         category: 'kaomoji' },
-  { id: 10, art: `(ΦωΦ)`,             category: 'kaomoji' },
-  { id: 11, art: `(=\`ω´=)`,          category: 'kaomoji' },
-  { id: 12, art: `≽^◡^≼`,             category: 'kaomoji' },
-  { id: 13, art: `^ↀᴥↀ^`,             category: 'kaomoji' },
-  { id: 14, art: `(=ↀωↀ=)`,           category: 'kaomoji' },
-  { id: 15, art: `(^._.^)ﾉ`,          category: 'kaomoji' },
-  { id: 16, art: `/ᐠ–ꞈ–ᐟ\\`,         category: 'kaomoji' },
-  { id: 17, art: `(=^‥^=)`,           category: 'kaomoji' },
-  { id: 18, art: `(=^･^=)`,           category: 'kaomoji' },
-  { id: 19, art: `ฅ(ᐢ•ﻌ•ᐢ)ฅ`,        category: 'kaomoji' },
-  { id: 20, art: `(=^-ω-^=)`,         category: 'kaomoji' },
-  { id: 21, art: `(^=◕ᴥ◕=^)`,        category: 'kaomoji' },
-  { id: 22, art: `(=^..^=)∫`,         category: 'kaomoji' },
-  { id: 23, art: `(^..^)ﾉ`,           category: 'kaomoji' },
-  { id: 24, art: `ฅ•ﻌ•ฅ`,            category: 'kaomoji' },
-  { id: 25, art: `(=①ω①=)`,          category: 'kaomoji' },
-  { id: 26, art: `(^˘ᗜ˘^)`,          category: 'kaomoji' },
-  { id: 27, art: `(/>_<)/`,           category: 'kaomoji' },
-  { id: 28, art: `(=^·^=)`,           category: 'kaomoji' },
-  { id: 29, art: `(=^◡^=)`,           category: 'kaomoji' },
-  { id: 30, art: `(=TωT=)`,           category: 'kaomoji' },
-  { id: 31, art: `(=^ᆽ^=)`,          category: 'kaomoji' },
-  { id: 32, art: `(=˘ᆽ˘=)`,          category: 'kaomoji' },
-  { id: 33, art: `(^o.o^)`,           category: 'kaomoji' },
-  { id: 34, art: `(= ; ω ; =)`,       category: 'kaomoji' },
-  { id: 35, art: `ヽ(=^･ω･^=)丿`,    category: 'kaomoji' },
-  { id: 36, art: `U^ェ^U`,            category: 'kaomoji' },
-  { id: 37, art: `(^•ω•^)`,          category: 'kaomoji' },
-  { id: 38, art: `/ᐠ. ᴗ .ᐟ\\`,       category: 'kaomoji' },
-  { id: 39, art: `(⁰▿⁰)`,            category: 'kaomoji' },
-  { id: 40, art: `(ฅ^ω^ฅ)`,          category: 'kaomoji' },
+// ── Data ────────────────────────────────────────────────────────────────────
 
-  // ── ASCII ART ─────────────────────────────────────────────────
-  { id: 41, art:
-`　　　／＞　　フ
-　　　|　_　 _|
-　　／\` ミ_xノ
-　　/　　　　 |
-　/　 ヽ　　 ﾉ
-　│　　|　|　|
-／￣|　　|　|　|
-(￣ヽ＿_ヽ_)__)
-　＼二つ`, category: 'ascii-art' },
+const cats = {
+  kaomoji: [
+    `₍ᐢ•ﻌ•ᐢ₎`,
+    `(=^･ω･^=)`,
+    `ฅ^•ﻌ•^ฅ`,
+    `(=^▽^=)`,
+    `ヾ(=^･ω･^=)丿`,
+    `(=^♡ω♡^=)`,
+    `/ᐠ｡ꞈ｡ᐟ\\`,
+    `≽^•⩊•^≼`,
+    `(^・ω・^ )`,
+    `(ΦωΦ)`,
+    `(=\`ω´=)`,
+    `≽^◡^≼`,
+    `^ↀᴥↀ^`,
+    `(=ↀωↀ=)`,
+    `(^._.^)ﾉ`,
+    `/ᐠ–ꞈ–ᐟ\\`,
+    `(=^‥^=)`,
+    `(=^･^=)`,
+    `ฅ(ᐢ•ﻌ•ᐢ)ฅ`,
+    `(=^-ω-^=)`,
+    `(^=◕ᴥ◕=^)`,
+    `(=^..^=)∫`,
+    `ฅ•ﻌ•ฅ`,
+    `(=①ω①=)`,
+    `(^˘ᗜ˘^)`,
+    `(=^·^=)`,
+    `(=^◡^=)`,
+    `(=TωT=)`,
+    `(=^ᆽ^=)`,
+    `(=˘ᆽ˘=)`,
+    `(= ; ω ; =)`,
+    `ヽ(=^･ω･^=)丿`,
+    `(^•ω•^)`,
+    `/ᐠ. ᴗ .ᐟ\\`,
+    `(ฅ^ω^ฅ)`,
+    `(^o.o^)`,
+    `(^..^)ﾉ`,
+    `U^ェ^U`,
+    `(=^owo^=)`,
+    `ฅ(^•ω•^ฅ)`,
+  ],
 
-  { id: 42, art:
-`/\\_/\\
-= ( °w° ) =
-  )   (
- (__  __)`, category: 'ascii-art' },
+  'ascii-art': [
+    // sideways sitting cat
+    `　　　／＞　　フ\n　　　|　_　 _|\n　　／\` ミ_xノ\n　　/　　　　 |\n　/　 ヽ　　 ﾉ\n　│　　|　|　|\n／￣|　　|　|　|\n(￣ヽ＿_ヽ_)__)\n　＼二つ`,
 
-  { id: 43, art:
-` /\\_/\\
-( o.o )
- > ^ <`, category: 'ascii-art' },
+    // classic /\_/\
+    `/\\_/\\\n= ( °w° ) =\n  )   (\n (__  __)`,
 
-  { id: 44, art:
-`  /\\  /\\
- ( o  o )
- =( Y )=
-  )   (
- (_)-(_)`, category: 'ascii-art' },
+    // simple face
+    ` /\\  /\\\n( o  o )\n  (∧)\n ( v )`,
 
-  { id: 45, art:
-`   /\\_____/\\
-  /  o   o  \\
- ( ==  ^  == )
-  )         (
- (           )
-( (  )   (  ) )
-(__(__)___(__)__)`, category: 'ascii-art' },
+    // tall cat
+    `  /\\  /\\\n =( ^ω^)=\n  )   (\n (__ __)`,
 
-  { id: 46, art:
-`^―^
-(・ω・)
-/ ⊃🐟`, category: 'ascii-art' },
+    // sleepy
+    `/\\_/\\\n( -.- )\n > ^ <\n(_____)`,
 
-  { id: 47, art:
-`  ∧＿∧
-（｡・ω・｡)つ━☆
-⊂　　 ノ 　　　･゜+
-しーＪ　　　°。+ *´¨)`, category: 'ascii-art' },
+    // angry
+    `/\\_/\\\n( >_< )\n  ∧∧\n (   )`,
 
-  { id: 48, art:
-`  /\\  /\\
-=( ^ω^)=
-  )   (
- (__)__)`, category: 'ascii-art' },
+    // box cat
+    `+--+--+\n|  ^  |\n| (o) |\n|  v  |\n+-----+`,
 
-  // ── BRAILLE ──────────────────────────────────────────────────
-  { id: 49, art:
-`⠀⠀⣿⠛⢳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⣿⡇⠀⠀⠹⣷⣄⡀⠀⠀⠀⠀⠀
-⠀⠀⣿⣿⠀⢤⠀⠹⣿⣿⣄⠀⠀⠀⠀
-⠀⠀⣿⣿⡄⠸⣦⡀⠹⣿⣿⣆⠀⠀⠀
-⠀⠀⠘⣿⣧⡀⠈⢿⣦⣿⣿⣿⡇⠀⠀
-⠀⠀⠀⠹⣿⣷⣦⣀⣿⣿⣿⣿⠃⠀⠀
-⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⠋⠀⠀⠀
-⠀⠀⠀⠀⠀⠈⠙⠿⣿⠿⠋⠀⠀⠀⠀`, category: 'braille' },
+    // long cat
+    `/\\_____/\\\n/  o   o  \\\n( ==  ^  == )\n )         (\n(           )\n(_)_______(_)`,
+  ],
 
-  { id: 50, art:
-`⠀⠀⠀⠀⣠⡴⠶⣄⠀⠀⠀⣠⠶⢦⣄⠀
-⠀⠀⢀⣾⠋⠀⠀⢹⡀⠀⣰⠏⠀⠀⠈⢷
-⠀⠀⣾⠁⠀⠀⠀⠈⣷⣾⠏⠀⠀⠀⠀⠘⣇
-⠀⠀⣿⣦⡀⠀⠀⣀⣽⣿⣄⡀⠀⢀⣴⣿⡇
-⠀⠀⠘⠋⠙⠓⠚⠋⠉⠉⠙⠛⠚⠙⠛⠛⠃
-⠀⠀⣸⠷⣦⠀⢠⡾⠶⠶⢷⡄⠀⣴⡾⢿⣧
-⠀⠀⡟⠀⢹⣠⡿⠀⠀⠀⠀⠻⣄⣿⠁⠀⣿
-⠀⠀⢿⡀⢀⣿⡇⠀⡀⢀⠀⢸⣿⠃⠀⢀⡿
-⠀⠀⠈⠙⠛⠃⠀⠙⠓⠚⠃⠀⠙⠛⠛⠋⠁`, category: 'braille' },
+  braille: [
+    // Cat face — front view, ears visible
+    `⠀⡠⠖⠒⠒⠲⡄⠀⠀⠀⡠⠖⠒⠒⠲⡄\n⢰⠃⠀⠀⠀⠀⠘⡄⠀⢰⠃⠀⠀⠀⠀⠘⡄\n⠈⠓⢤⣀⣀⡤⠚⠁⠀⠈⠓⢤⣀⣀⡤⠚⠁\n⠀⠀⢸⡏⠉⠉⠉⠉⠉⠉⠉⢹⡇⠀⠀⠀\n⠀⠀⢸⣧⠀⣀⠀⡀⠀⠀⣀⣸⡇⠀⠀⠀\n⠀⠀⠈⠻⣄⡈⠙⠋⠁⢀⣠⠿⠁⠀⠀⠀\n⠀⠀⠀⠀⠀⠉⠓⠒⠒⠋⠀⠀⠀⠀⠀⠀`,
 
-  { id: 51, art:
-`⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀
-⠀⠀⠀⣴⠟⠉⠀⠀⠉⠻⣦⠀⠀⠀
-⠀⠀⣾⠏⠀⣿⠀⣿⠀⠀⠘⣷⠀⠀
-⠀⢸⣿⠀⠀⠉⠀⠉⠀⠀⠀⣿⡇⠀
-⠀⢸⣿⡄⠀⠀⠀⠀⠀⠀⢠⣿⡇⠀
-⠀⠀⢿⣧⣀⠀⣀⣀⠀⣀⣸⡿⠀⠀
-⠀⠀⠀⠙⠿⣿⣿⣿⣿⠿⠛⠀⠀⠀
-⠀⠀⠀⠀⠀⠉⠉⠉⠉⠀⠀⠀⠀⠀`, category: 'braille' },
+    // Sitting cat — side profile
+    `⠀⠀⠀⠀⢀⣤⠖⠒⠒⠲⣤⡀⠀⠀\n⠀⠀⠀⣴⠋⠀⠀⠀⠀⠀⠀⢹⡆⠀\n⠀⠀⢰⡇⠀⣿⠀⠀⣿⠀⠀⢸⡇⠀\n⠀⠀⢸⡇⠀⠉⠀⠀⠉⠀⠀⢸⡇⠀\n⠀⠀⢸⣇⠀⠀⠀⡄⠀⠀⠀⣸⡇⠀\n⠀⠀⠀⠻⣦⣄⣀⣀⣀⣄⣴⠟⠀⠀\n⠀⠀⠀⠀⢸⡇⠀⠀⠀⢸⡇⠀⠀⠀\n⠀⠀⠀⠀⠘⠃⠀⠀⠀⠘⠃⠀⠀⠀`,
 
-  // ── EMOJI COMBOS ─────────────────────────────────────────────
-  { id: 52, art: `🐱✨`,              category: 'emoji' },
-  { id: 53, art: `🐈‍⬛💫`,           category: 'emoji' },
-  { id: 54, art: `😺🌸`,             category: 'emoji' },
-  { id: 55, art: `🐾💕`,             category: 'emoji' },
-  { id: 56, art: `🐱🌙⭐`,           category: 'emoji' },
-  { id: 57, art: `😸✨💖`,           category: 'emoji' },
-  { id: 58, art: `🐈🎀`,             category: 'emoji' },
-  { id: 59, art: `😻💝`,             category: 'emoji' },
-  { id: 60, art: `🐱🍵`,             category: 'emoji' },
-  { id: 61, art: `🐈‍⬛🌑`,          category: 'emoji' },
-  { id: 62, art: `😺🐟`,             category: 'emoji' },
-  { id: 63, art: `🐾🌿`,             category: 'emoji' },
-  { id: 64, art: `🐱💤`,             category: 'emoji' },
-  { id: 65, art: `😿🌧️`,            category: 'emoji' },
-  { id: 66, art: `🐱🧶`,             category: 'emoji' },
-  { id: 67, art: `😼😈`,             category: 'emoji' },
-  { id: 68, art: `🐈🌺🌸`,           category: 'emoji' },
-  { id: 69, art: `🐱☕✨`,           category: 'emoji' },
-  { id: 70, art: `😸🌈`,             category: 'emoji' },
-  { id: 71, art: `🐾✨💫⭐`,         category: 'emoji' },
-];
+    // Detailed cat portrait with whiskers
+    `⠀⠀⢀⣤⠴⠦⠤⣤⡀⠀⠀⠀⠀\n⠀⣴⠋⠀⠀⠀⠀⠀⠙⣦⠀⠀⠀\n⠀⡟⠀⢰⡆⠀⢰⡆⠀⢻⡄⠀⠀\n⢠⡷⣤⡈⠛⠀⠛⢁⣤⡾⢧⡀⠀\n⠘⠀⠈⠙⣲⣶⣶⡟⠋⠁⠀⠃⠀\n⠀⠀⠀⢠⡿⠛⠛⢿⣄⠀⠀⠀⠀\n⠀⠀⠀⢸⡇⠀⠀⢸⡇⠀⠀⠀⠀\n⠀⠀⠀⠘⠃⠀⠀⠘⠃⠀⠀⠀⠀`,
 
-let currentFilter = 'all';
-let visibleCats = [...cats];
+    // Nyan cat style (running)
+    `⠀⠀⣠⡾⠛⠛⠛⠛⢿⣄⠀⠀\n⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀\n⢠⣿⠛⡇⣿⠛⢻⣿⡟⠛⣿⡄\n⢸⣿⠀⡇⣿⠀⢸⣿⡇⠀⣿⡇\n⢸⣿⣄⣀⣿⠀⢸⣿⣧⣀⣿⡇\n⠀⠙⠛⠛⠛⠀⠀⠛⠛⠛⠋⠀`,
 
-const grid = document.querySelector('.grid');
-const countEl = document.querySelector('.count');
+    // Cat loaf (sitting compact)
+    `⠀⠀⠀⣠⠴⠒⠒⠦⣄⠀⠀\n⠀⢀⡾⠁⠀⠀⠀⠀⠈⢷⡀\n⠀⡾⠀⣀⣤⣤⣀⠀⠀⠘⣧\n⠀⣿⠀⠛⠁⠈⠛⠀⠀⠀⣿\n⠀⢿⡄⠀⠀⠀⠀⠀⠀⢠⡿\n⠀⠀⠙⠷⣦⣤⣴⡾⠋⠀⠀`,
 
-function filteredCats() {
-  return currentFilter === 'all' ? cats : cats.filter(c => c.category === currentFilter);
-}
+    // Stretching cat (long, low)
+    `⠀⠀⣀⡤⠤⠤⠤⣄⡀⠀⠀⠀⠀⠀⠀\n⣴⠟⠁⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⠀\n⡇⠀⣿⠀⠀⣿⠀⠀⠀⠀⠈⠳⣄⠀⠀\n⡇⠀⠉⠀⠀⠉⠀⠀⠀⠀⠀⠀⢸⡇⠀\n⢷⣄⠀⠀⠀⣀⣀⠀⠀⠀⠀⣠⡾⠁⠀\n⠀⠉⠛⠛⠋⠉⠉⠙⠛⠛⠛⠉⠀⠀⠀`,
 
-function isMultiline(art) {
-  return art.includes('\n');
-}
+    // Minimal cat face
+    `⠀⡖⠒⢲⠀⡖⠒⢲⠀\n⠀⡇⠀⢸⠀⡇⠀⢸⠀\n⠒⠚⠒⢻⣿⣿⡟⠒⠒\n⠀⣤⠀⢸⣿⡇⠀⣤⠀\n⠀⠿⠀⠘⠿⠿⠃⠿⠀`,
 
-function renderGrid() {
-  visibleCats = filteredCats();
-  countEl.textContent = `${visibleCats.length} cats`;
-  grid.innerHTML = '';
+    // Cat with tail up
+    `⠀⠀⠀⠀⠀⠀⠀⠀⡰⠋\n⠀⠀⠀⠀⠀⠀⠀⢸⠃\n⠀⢀⣤⠒⠒⠒⣤⡀⡇\n⠀⡏⠀⣿⠀⣿⠀⢹⠇\n⠀⡇⠀⠉⠀⠉⠀⢸\n⠀⣧⡀⠀⠀⠀⢀⣾\n⠀⠈⠛⠷⣦⡾⠛⠁`,
+  ],
 
-  visibleCats.forEach(cat => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.id = cat.id;
+  emoji: [
+    `🐱✨`,
+    `🐈‍⬛💫`,
+    `😺🌸`,
+    `🐾💕`,
+    `🐱🌙⭐`,
+    `😸✨💖`,
+    `🐈🎀`,
+    `😻💝`,
+    `🐱🍵`,
+    `🐈‍⬛🌑`,
+    `😺🐟`,
+    `🐾🌿`,
+    `🐱💤`,
+    `😿🌧️`,
+    `🐱🧶`,
+    `😼😈`,
+    `🐈🌺🌸`,
+    `🐱☕✨`,
+    `😸🌈`,
+    `🐾✨💫⭐`,
+    `🐱🫶`,
+    `😺🍣`,
+    `🐈🍂`,
+    `🐱🫧`,
+  ],
+};
 
-    const label = document.createElement('span');
-    label.className = 'copied-label';
-    label.textContent = 'Copied!';
+// ── Generator ────────────────────────────────────────────────────────────────
 
-    let content;
-    if (isMultiline(cat.art)) {
-      content = document.createElement('pre');
-      content.textContent = cat.art;
-    } else {
-      content = document.createElement('div');
-      content.className = 'text';
-      content.textContent = cat.art;
-    }
+const GEN = {
+  eyes: ['ω','▽','◡','•','‥','ↀ','♡','･','ᴗ','o','ˇ','˘','◕','ᵕ','^','T','>' ],
+  noses: ['ﻌ','ω','ᆽ','ᴥ','▿','∧','~','^','◇','w','ᗜ','ꞈ'],
+  wrappers: [
+    ['(=^','  ^=)'],['(^',  '^)'],['(=',  '=)'],
+    ['≽^',  '^≼'], ['/ᐠ',  'ᐟ\\'],['₍ᐢ', 'ᐢ₎'],
+    ['ฅ^',  '^ฅ'], ['(ΦωΦ',''],   ['≽',   '≼'],
+  ],
+  pre:  ['','','','ฅ','ヾ','ヽ','(╯'],
+  suf:  ['','','','ฅ','ﾉ','丿','∫'],
+};
 
-    const catLabel = document.createElement('span');
-    catLabel.className = 'cat-label';
-    catLabel.textContent = cat.category;
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-    card.appendChild(label);
-    card.appendChild(content);
-    card.appendChild(catLabel);
-
-    card.addEventListener('click', () => copyCard(card, cat.art));
-    grid.appendChild(card);
-  });
-}
-
-function copyCard(card, art) {
-  navigator.clipboard.writeText(art).catch(() => {
-    // fallback for browsers without clipboard API
-    const ta = document.createElement('textarea');
-    ta.value = art;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  });
-
-  // Remove any existing copied state
-  document.querySelectorAll('.card.copied').forEach(c => c.classList.remove('copied'));
-
-  card.classList.add('copied');
-  setTimeout(() => card.classList.remove('copied'), 1000);
-}
-
-function highlightCard(cat) {
-  document.querySelectorAll('.card.highlighted').forEach(c => c.classList.remove('highlighted'));
-
-  // Make sure this cat's filter is visible
-  if (currentFilter !== 'all' && currentFilter !== cat.category) {
-    setFilter('all');
-  } else {
-    renderGrid();
+function generateKaomoji() {
+  const e = pick(GEN.eyes);
+  const n = pick(GEN.noses);
+  const [wl, wr] = pick(GEN.wrappers);
+  // some wrappers already contain both sides
+  if (!wr) {
+    return `${wl}${e}${n}${e})`;
   }
+  const pre = Math.random() < 0.25 ? pick(GEN.pre.filter(Boolean)) : '';
+  const suf = Math.random() < 0.25 ? pick(GEN.suf.filter(Boolean)) : '';
+  return `${pre}${wl}${e}${n}${e}${wr}${suf}`;
+}
 
+function generateSimpleAscii() {
+  const tops = ['  /\\  /\\','  ∧  ∧','  /\\  /\\'];
+  const eyeRow = pick([
+    '( •  • )','( o  o )','( ^  ^ )','( ◕  ◕ )','( -  - )','( >  < )',
+  ]);
+  const nose = pick([' (∧) ',' (ω) ',' (^) ',' (~) ']);
+  const bot  = pick([' ( v )',' (_v_)',' (___)',' >^< ']);
+  return `${pick(tops)}\n${eyeRow}\n${nose}\n${bot}`;
+}
+
+function generateCat() {
+  return Math.random() < 0.75 ? generateKaomoji() : generateSimpleAscii();
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+
+function makeCard(artText, extra = '') {
+  const card = document.createElement('div');
+  card.className = `card${extra ? ' ' + extra : ''}`;
+
+  const copied = document.createElement('span');
+  copied.className = 'copied-label';
+  copied.textContent = 'copied!';
+
+  const isMulti = artText.includes('\n');
+  const el = document.createElement(isMulti ? 'pre' : 'div');
+  el.className = isMulti ? '' : 'art';
+  el.textContent = artText;
+
+  card.appendChild(copied);
+  card.appendChild(el);
+
+  card.addEventListener('click', () => {
+    navigator.clipboard.writeText(artText).catch(() => {
+      const ta = Object.assign(document.createElement('textarea'), {
+        value: artText, style: 'position:fixed;opacity:0'
+      });
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    });
+    document.querySelectorAll('.card.copied').forEach(c => c.classList.remove('copied'));
+    card.classList.add('copied');
+    setTimeout(() => card.classList.remove('copied'), 1100);
+  });
+
+  return card;
+}
+
+function renderSection(category) {
+  const grid  = document.getElementById(`grid-${category}`);
+  const count = document.getElementById(`count-${category}`);
+  const navCt = document.getElementById(`nav-count-${category}`);
+  const items = cats[category];
+  items.forEach(art => grid.appendChild(makeCard(art)));
+  const n = items.length;
+  count.textContent = n;
+  if (navCt) navCt.textContent = n;
+}
+
+['kaomoji','ascii-art','braille','emoji'].forEach(renderSection);
+
+// ── Generate button ───────────────────────────────────────────────────────────
+
+const genSection = document.getElementById('sec-generated');
+const genGrid    = document.getElementById('grid-generated');
+const genCount   = document.getElementById('gen-count');
+let genN = 0;
+
+document.querySelector('.btn-generate').addEventListener('click', () => {
+  const art  = generateCat();
+  const card = makeCard(art, 'generated');
+
+  // Prepend with small pop animation
+  card.style.opacity = '0';
+  card.style.transform = 'scale(0.85)';
+  genGrid.prepend(card);
   requestAnimationFrame(() => {
-    const card = grid.querySelector(`[data-id="${cat.id}"]`);
-    if (!card) return;
-    card.classList.add('highlighted');
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    copyCard(card, cat.art);
-
-    setTimeout(() => card.classList.remove('highlighted'), 2000);
+    card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+    card.style.opacity = '1';
+    card.style.transform = 'scale(1)';
   });
-}
 
-function setFilter(filter) {
-  currentFilter = filter;
-  document.querySelectorAll('.pill').forEach(p => {
-    p.classList.toggle('active', p.dataset.filter === filter);
-  });
-  renderGrid();
-}
+  genN++;
+  genCount.textContent = genN;
+  genSection.style.display = '';
 
-// Filter pills
-document.querySelectorAll('.pill').forEach(pill => {
-  pill.addEventListener('click', () => setFilter(pill.dataset.filter));
+  // Scroll into view
+  genSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
-// Random button
-document.querySelector('.btn-random').addEventListener('click', () => {
-  const pool = filteredCats();
-  if (!pool.length) return;
-  const cat = pool[Math.floor(Math.random() * pool.length)];
-  highlightCard(cat);
-});
+// ── Sidebar scroll spy ────────────────────────────────────────────────────────
 
-// Initial render
-renderGrid();
+const sections = ['kaomoji','ascii-art','braille','emoji'];
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id.replace('sec-', '');
+    navItems.forEach(ni => {
+      ni.classList.toggle('active', ni.dataset.target === `sec-${id}`);
+    });
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+sections.forEach(s => {
+  const el = document.getElementById(`sec-${s}`);
+  if (el) observer.observe(el);
+});
 </script>
 </body>
 </html>
