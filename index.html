@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Collection</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f9f9f7;
+      --text:     #1a1a1a;
+      --muted:    #aaa;
+      --dim:      #777;
+      --hover:    #efefed;
+      --copied:   #e6f4ea;
+      --mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1.5rem 8rem;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 5rem 0 2rem;
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+
+    .tagline {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.75rem;
+      margin: 1.75rem 0 0;
+    }
+
+    nav a {
+      font-size: 0.75rem;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      transition: color 0.12s;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    /* ── Generate button ── */
+    .generate-wrap {
+      text-align: center;
+      margin: 3rem 0 3.5rem;
+    }
+
+    .btn-generate {
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      padding: 0.5rem 1.4rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-generate:hover  { opacity: 0.7; }
+    .btn-generate:active { opacity: 0.5; }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e5e3;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      align-items: flex-start;
+    }
+
+    /* ── Card ── */
+    .card {
+      padding: 0.45rem 0.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s;
+      position: relative;
+    }
+
+    .card:hover  { background: var(--hover); }
+    .card.copied { background: var(--copied); }
+
+    .card .art {
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      white-space: pre;
+      display: block;
+      color: var(--text);
+    }
+
+    .flash {
+      position: absolute;
+      top: -1.3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.58rem;
+      color: #3d9142;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+
+    .card.copied .flash { opacity: 1; }
+
+    /* ── Generated section ── */
+    #sec-generated { display: none; }
+    #nav-gen       { display: none; }
+
+    .card.new {
+      animation: pop 0.18s ease-out;
+    }
+
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>Cat Collection</h1>
+    <p class="tagline">click any cat to copy</p>
+    <nav>
+      <a href="#sec-generated" id="nav-gen">generated</a>
+      <a href="#sec-kaomoji">kaomoji</a>
+      <a href="#sec-ascii">ascii</a>
+      <a href="#sec-braille">braille</a>
+      <a href="#sec-emoji">emoji</a>
+    </nav>
+  </header>
+
+  <div class="generate-wrap">
+    <button class="btn-generate">generate a cat</button>
+  </div>
+
+  <section class="section" id="sec-generated">
+    <p class="section-label">generated</p>
+    <div class="grid" id="grid-generated"></div>
+  </section>
+
+  <section class="section" id="sec-kaomoji">
+    <p class="section-label">kaomoji</p>
+    <div class="grid" id="grid-kaomoji"></div>
+  </section>
+
+  <section class="section" id="sec-ascii">
+    <p class="section-label">ascii</p>
+    <div class="grid" id="grid-ascii"></div>
+  </section>
+
+  <section class="section" id="sec-braille">
+    <p class="section-label">braille</p>
+    <div class="grid" id="grid-braille"></div>
+  </section>
+
+  <section class="section" id="sec-emoji">
+    <p class="section-label">emoji</p>
+    <div class="grid" id="grid-emoji"></div>
+  </section>
+
+</div>
+
+<script>
+const data = {
+  kaomoji: [
+    `₍ᐢ•ﻌ•ᐢ₎`,`(=^･ω･^=)`,`ฅ^•ﻌ•^ฅ`,`(=^▽^=)`,`ヾ(=^･ω･^=)丿`,
+    `(=^♡ω♡^=)`,`/ᐠ｡ꞈ｡ᐟ\\`,`≽^•⩊•^≼`,`(^・ω・^ )`,`(ΦωΦ)`,
+    `(=\`ω´=)`,`≽^◡^≼`,`^ↀᴥↀ^`,`(=ↀωↀ=)`,`(^._.^)ﾉ`,
+    `/ᐠ–ꞈ–ᐟ\\`,`(=^‥^=)`,`(=^･^=)`,`ฅ(ᐢ•ﻌ•ᐢ)ฅ`,`(=^-ω-^=)`,
+    `(^=◕ᴥ◕=^)`,`(=^..^=)∫`,`ฅ•ﻌ•ฅ`,`(=①ω①=)`,`(^˘ᗜ˘^)`,
+    `(=^·^=)`,`(=^◡^=)`,`(=TωT=)`,`(=^ᆽ^=)`,`(=˘ᆽ˘=)`,
+    `(= ; ω ; =)`,`ヽ(=^･ω･^=)丿`,`(^•ω•^)`,`/ᐠ. ᴗ .ᐟ\\`,
+    `(ฅ^ω^ฅ)`,`(^o.o^)`,`(^..^)ﾉ`,`U^ェ^U`,`(=^owo^=)`,`ฅ(^•ω•^ฅ)`,
+  ],
+
+  ascii: [
+    `　　　／＞　　フ\n　　　|　_　 _|\n　　／\` ミ_xノ\n　　/　　　　 |\n　/　 ヽ　　 ﾉ\n　│　　|　|　|\n／￣|　　|　|　|\n(￣ヽ＿_ヽ_)__)\n　＼二つ`,
+    `/\\_/\\\n= ( °w° ) =\n  )   (\n (__  __)`,
+    ` /\\  /\\\n( o  o )\n  (∧)\n ( v )`,
+    `  /\\  /\\\n =( ^ω^)=\n  )   (\n (__ __)`,
+    `/\\_/\\\n( -.- )\n > ^ <\n(_____)`,
+    `/\\_/\\\n( >_< )\n  ∧∧\n (   )`,
+    `/\\_____/\\\n/  o   o  \\\n( ==  ^  == )\n )         (\n(           )\n(_)_______(_)`,
+    `+-------+\n|  ^   ^ |\n|  (o)   |\n|   v    |\n+-------+`,
+  ],
+
+  braille: [
+    `⠀⡠⠖⠒⠒⠲⡄⠀⠀⠀⡠⠖⠒⠒⠲⡄\n⢰⠃⠀⠀⠀⠀⠘⡄⠀⢰⠃⠀⠀⠀⠀⠘⡄\n⠈⠓⢤⣀⣀⡤⠚⠁⠀⠈⠓⢤⣀⣀⡤⠚⠁\n⠀⠀⢸⡏⠉⠉⠉⠉⠉⠉⠉⢹⡇⠀⠀⠀\n⠀⠀⢸⣧⠀⣀⠀⡀⠀⠀⣀⣸⡇⠀⠀⠀\n⠀⠀⠈⠻⣄⡈⠙⠋⠁⢀⣠⠿⠁⠀⠀⠀\n⠀⠀⠀⠀⠀⠉⠓⠒⠒⠋⠀⠀⠀⠀⠀⠀`,
+    `⠀⠀⠀⠀⢀⣤⠖⠒⠒⠲⣤⡀⠀⠀\n⠀⠀⠀⣴⠋⠀⠀⠀⠀⠀⠀⢹⡆⠀\n⠀⠀⢰⡇⠀⣿⠀⠀⣿⠀⠀⢸⡇⠀\n⠀⠀⢸⡇⠀⠉⠀⠀⠉⠀⠀⢸⡇⠀\n⠀⠀⢸⣇⠀⠀⠀⡄⠀⠀⠀⣸⡇⠀\n⠀⠀⠀⠻⣦⣄⣀⣀⣀⣄⣴⠟⠀⠀\n⠀⠀⠀⠀⢸⡇⠀⠀⠀⢸⡇⠀⠀⠀\n⠀⠀⠀⠀⠘⠃⠀⠀⠀⠘⠃⠀⠀⠀`,
+    `⠀⠀⢀⣤⠴⠦⠤⣤⡀⠀⠀⠀⠀\n⠀⣴⠋⠀⠀⠀⠀⠀⠙⣦⠀⠀⠀\n⠀⡟⠀⢰⡆⠀⢰⡆⠀⢻⡄⠀⠀\n⢠⡷⣤⡈⠛⠀⠛⢁⣤⡾⢧⡀⠀\n⠘⠀⠈⠙⣲⣶⣶⡟⠋⠁⠀⠃⠀\n⠀⠀⠀⢠⡿⠛⠛⢿⣄⠀⠀⠀⠀\n⠀⠀⠀⢸⡇⠀⠀⢸⡇⠀⠀⠀⠀\n⠀⠀⠀⠘⠃⠀⠀⠘⠃⠀⠀⠀⠀`,
+    `⠀⠀⣠⡾⠛⠛⠛⠛⢿⣄⠀⠀\n⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀\n⢠⣿⠛⡇⣿⠛⢻⣿⡟⠛⣿⡄\n⢸⣿⠀⡇⣿⠀⢸⣿⡇⠀⣿⡇\n⢸⣿⣄⣀⣿⠀⢸⣿⣧⣀⣿⡇\n⠀⠙⠛⠛⠛⠀⠀⠛⠛⠛⠋⠀`,
+    `⠀⠀⠀⣠⠴⠒⠒⠦⣄⠀⠀\n⠀⢀⡾⠁⠀⠀⠀⠀⠈⢷⡀\n⠀⡾⠀⣀⣤⣤⣀⠀⠀⠘⣧\n⠀⣿⠀⠛⠁⠈⠛⠀⠀⠀⣿\n⠀⢿⡄⠀⠀⠀⠀⠀⠀⢠⡿\n⠀⠀⠙⠷⣦⣤⣴⡾⠋⠀⠀`,
+    `⠀⠀⣀⡤⠤⠤⠤⣄⡀⠀⠀⠀⠀⠀⠀\n⣴⠟⠁⠀⠀⠀⠀⠀⠙⢦⣀⠀⠀⠀⠀\n⡇⠀⣿⠀⠀⣿⠀⠀⠀⠀⠈⠳⣄⠀⠀\n⡇⠀⠉⠀⠀⠉⠀⠀⠀⠀⠀⠀⢸⡇⠀\n⢷⣄⠀⠀⠀⣀⣀⠀⠀⠀⠀⣠⡾⠁⠀\n⠀⠉⠛⠛⠋⠉⠉⠙⠛⠛⠛⠉⠀⠀⠀`,
+    `⠀⡖⠒⢲⠀⡖⠒⢲⠀\n⠀⡇⠀⢸⠀⡇⠀⢸⠀\n⠒⠚⠒⢻⣿⣿⡟⠒⠒\n⠀⣤⠀⢸⣿⡇⠀⣤⠀\n⠀⠿⠀⠘⠿⠿⠃⠿⠀`,
+    `⠀⠀⠀⠀⠀⠀⠀⠀⡰⠋\n⠀⠀⠀⠀⠀⠀⠀⢸⠃\n⠀⢀⣤⠒⠒⠒⣤⡀⡇\n⠀⡏⠀⣿⠀⣿⠀⢹⠇\n⠀⡇⠀⠉⠀⠉⠀⢸\n⠀⣧⡀⠀⠀⠀⢀⣾\n⠀⠈⠛⠷⣦⡾⠛⠁`,
+  ],
+
+  emoji: [
+    `🐱✨`,`🐈‍⬛💫`,`😺🌸`,`🐾💕`,`🐱🌙⭐`,`😸✨💖`,`🐈🎀`,`😻💝`,
+    `🐱🍵`,`🐈‍⬛🌑`,`😺🐟`,`🐾🌿`,`🐱💤`,`😿🌧️`,`🐱🧶`,`😼😈`,
+    `🐈🌺🌸`,`🐱☕✨`,`😸🌈`,`🐾✨💫⭐`,`🐱🫶`,`😺🍣`,`🐈🍂`,`🐱🫧`,
+  ],
+};
+
+// ── Generator ────────────────────────────────────────────────────────────────
+const GEN = {
+  eyes:  ['ω','▽','◡','•','‥','ↀ','♡','･','ᴗ','o','ˇ','◕','ᵕ','^','T'],
+  noses: ['ﻌ','ω','ᆽ','ᴥ','▿','~','^','◇','w','ᗜ','ꞈ'],
+  wraps: [
+    ['(=^','  ^=)'],['(^','^)'],['(=','=)'],
+    ['≽^','^≼'],['/ᐠ','ᐟ\\'],['₍ᐢ','ᐢ₎'],
+    ['ฅ^','^ฅ'],['≽','≼'],
+  ],
+};
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function generate() {
+  const e = pick(GEN.eyes);
+  const n = pick(GEN.noses);
+  const [l, r] = pick(GEN.wraps);
+  return `${l}${e}${n}${e}${r}`;
+}
+
+// ── Card factory ─────────────────────────────────────────────────────────────
+function makeCard(text, animate = false) {
+  const card = document.createElement('div');
+  card.className = 'card' + (animate ? ' new' : '');
+
+  const flash = document.createElement('span');
+  flash.className = 'flash';
+  flash.textContent = 'copied';
+
+  const art = document.createElement('span');
+  art.className = 'art';
+  art.textContent = text;
+
+  card.append(flash, art);
+
+  card.addEventListener('click', () => {
+    navigator.clipboard.writeText(text).catch(() => {
+      const ta = Object.assign(document.createElement('textarea'), {
+        value: text, style: 'position:fixed;opacity:0'
+      });
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    });
+    document.querySelectorAll('.card.copied').forEach(c => c.classList.remove('copied'));
+    card.classList.add('copied');
+    setTimeout(() => card.classList.remove('copied'), 1200);
+  });
+
+  return card;
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render(key, gridId) {
+  const grid = document.getElementById(gridId);
+  data[key].forEach(t => grid.appendChild(makeCard(t)));
+}
+
+render('kaomoji', 'grid-kaomoji');
+render('ascii',   'grid-ascii');
+render('braille', 'grid-braille');
+render('emoji',   'grid-emoji');
+
+// ── Generate button ───────────────────────────────────────────────────────────
+const genSection = document.getElementById('sec-generated');
+const genGrid    = document.getElementById('grid-generated');
+const navGen     = document.getElementById('nav-gen');
+
+document.querySelector('.btn-generate').addEventListener('click', () => {
+  const card = makeCard(generate(), true);
+  genGrid.prepend(card);
+  genSection.style.display = '';
+  navGen.style.display = '';
+  genSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+</body>
+</html>
