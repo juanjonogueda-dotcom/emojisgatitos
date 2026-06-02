@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emojis de Gatitos</title>
+  <title>Colección de Gatitos</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='58' r='34' fill='%231a1a1a'/%3E%3Cpolygon points='16,48 22,18 44,42' fill='%231a1a1a'/%3E%3Cpolygon points='56,42 78,18 84,48' fill='%231a1a1a'/%3E%3Cellipse cx='38' cy='55' rx='5' ry='6' fill='%23f9f9f7'/%3E%3Cellipse cx='62' cy='55' rx='5' ry='6' fill='%23f9f9f7'/%3E%3Cpolygon points='50,66 46,72 54,72' fill='%23f9f9f7'/%3E%3C/svg%3E">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #f9f9f7;
-      --text:     #1a1a1a;
-      --muted:    #aaa;
-      --dim:      #777;
-      --hover:    #efefed;
-      --copied:   #e6f4ea;
-      --mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --bg:        #f9f9f7;
+      --text:      #1a1a1a;
+      --muted:     #aaa;
+      --dim:       #777;
+      --border:    #e8e8e5;
+      --hover-bg:  #f0f0ee;
+      --shadow:    rgba(0, 0, 0, 0.06);
+      --copied-bg: #e8f5eb;
+      --mono:      'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
     }
 
     body {
@@ -28,56 +31,60 @@
     .wrap {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 1.25rem 8rem;
+      padding: 0 1.5rem 8rem;
     }
+
+    /* ── Header ─────────────────────────────────────────────────────────────── */
 
     header {
       text-align: center;
-      padding: 5rem 0 2rem;
+      padding: 5.5rem 0 2.5rem;
     }
 
     h1 {
-      font-size: 1.45rem;
-      font-weight: 500;
-      letter-spacing: -0.015em;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       color: var(--text);
+      font-family: Georgia, 'Times New Roman', serif;
     }
 
     .tagline {
-      font-size: 0.75rem;
+      font-size: 0.71rem;
       color: var(--muted);
-      margin-top: 0.35rem;
+      margin-top: 0.45rem;
+      letter-spacing: 0.03em;
     }
 
-    .tagline-sub {
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-top: 0.15rem;
-      opacity: 0.75;
-    }
+    /* ── Nav ─────────────────────────────────────────────────────────────────── */
 
     nav {
       display: flex;
       justify-content: center;
       gap: 1.75rem;
       margin: 1.75rem 0 0;
+      flex-wrap: wrap;
     }
 
     nav a {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--dim);
       text-decoration: none;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: lowercase;
-      transition: color 0.12s;
+      transition: color 0.15s;
       padding-bottom: 2px;
       border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a.active {
       color: var(--text);
       border-bottom-color: var(--text);
     }
+
+    /* ── Generate button ────────────────────────────────────────────────────── */
 
     .generate-wrap {
       text-align: center;
@@ -91,15 +98,17 @@
       font-family: inherit;
       font-size: 0.8rem;
       font-weight: 400;
-      letter-spacing: 0.03em;
-      padding: 0.5rem 1.4rem;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1.5rem;
       border-radius: 100px;
       cursor: pointer;
-      transition: opacity 0.15s;
+      transition: opacity 0.15s, transform 0.12s;
     }
 
-    .btn-generate:hover  { opacity: 0.7; }
-    .btn-generate:active { opacity: 0.5; }
+    .btn-generate:hover  { opacity: 0.72; }
+    .btn-generate:active { opacity: 0.5; transform: scale(0.97); }
+
+    /* ── Sections ───────────────────────────────────────────────────────────── */
 
     .section {
       margin-bottom: 3.5rem;
@@ -107,8 +116,8 @@
     }
 
     .section-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 1.25rem;
@@ -121,8 +130,10 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: #e5e5e3;
+      background: var(--border);
     }
+
+    /* ── Grid ───────────────────────────────────────────────────────────────── */
 
     .grid {
       display: grid;
@@ -130,30 +141,48 @@
       gap: 0.75rem;
     }
 
-    @media (min-width: 768px) {
-      .grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (min-width: 560px) {
+      .grid { grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
     }
+
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    }
+
+    /* ── Cards ──────────────────────────────────────────────────────────────── */
 
     .card {
       padding: 1rem 0.75rem;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.1s;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 150px;
+      min-height: 140px;
       overflow: hidden;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+      animation: fadeUp 0.38s ease both;
     }
 
-    @media (min-width: 768px) {
-      .card { min-height: 200px; padding: 1.25rem 1rem; }
+    @media (min-width: 560px) {
+      .card { min-height: 175px; padding: 1.25rem 1rem; }
     }
 
-    .card:hover  { background: var(--hover); }
-    .card.copied { background: var(--copied); }
+    .card:hover {
+      background: var(--hover-bg);
+      box-shadow: 0 4px 20px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .card.copied {
+      background: var(--copied-bg);
+    }
+
+    .card.new {
+      animation: pop 0.2s ease-out;
+    }
 
     .card .art {
       font-family: var(--mono);
@@ -166,58 +195,86 @@
       transform-origin: center center;
     }
 
-    @media (min-width: 768px) {
-      .card .art { font-size: 1.15rem; }
+    @media (min-width: 560px) {
+      .card .art { font-size: 1.1rem; }
     }
 
-    .flash {
-      position: absolute;
-      top: -1.3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.58rem;
-      color: #3d9142;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.1s;
-    }
+    /* ── Animations ─────────────────────────────────────────────────────────── */
 
-    .card.copied .flash { opacity: 1; }
-
-    #sec-generated { display: none; }
-    #nav-gen       { display: none; }
-
-    .card.new {
-      animation: pop 0.18s ease-out;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes pop {
-      from { opacity: 0; transform: scale(0.88); }
+      from { opacity: 0; transform: scale(0.84); }
       to   { opacity: 1; transform: scale(1); }
     }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card          { animation: none; }
+      .card.new      { animation: none; }
+      .card:hover    { transform: none; }
+      .btn-generate:active { transform: none; }
+      .toast         { transition: opacity 0.1s; }
+    }
+
+    /* ── Toast ──────────────────────────────────────────────────────────────── */
+
+    .toast {
+      position: fixed;
+      bottom: 2.25rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.07em;
+      padding: 0.45rem 1.2rem;
+      border-radius: 100px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 900;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Modal ──────────────────────────────────────────────────────────────── */
 
     .modal {
       position: fixed;
       inset: 0;
-      background: #fff;
+      background: var(--bg);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1000;
       cursor: zoom-out;
-      padding: 2rem;
-      animation: fade 0.15s ease-out;
+      padding: 2.5rem;
+      animation: fade 0.18s ease-out;
     }
+
     .modal.open { display: flex; }
 
     .modal-art {
       font-family: var(--mono);
-      font-size: clamp(1.4rem, 6vw, 3.2rem);
+      font-size: clamp(1.1rem, 5vw, 3rem);
       line-height: 1.3;
       white-space: pre;
       color: var(--text);
       text-align: center;
+      user-select: text;
     }
 
     .modal-hint {
@@ -225,15 +282,15 @@
       bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       color: var(--muted);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
     }
 
-    @keyframes fade {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+    /* ── Hidden by default ──────────────────────────────────────────────────── */
+
+    #sec-generated { display: none; }
+    #nav-gen       { display: none; }
   </style>
 </head>
 <body>
@@ -242,13 +299,13 @@
 
   <header>
     <h1>Colección de Gatitos</h1>
-    <p class="tagline">haz clic para copiar</p>
-    <p class="tagline-sub">doble clic para ver en grande</p>
+    <p class="tagline">clic para copiar · doble clic para ampliar</p>
     <nav>
       <a href="#sec-generated" id="nav-gen">generados</a>
       <a href="#sec-kaomoji">kaomoji</a>
       <a href="#sec-ascii">ascii</a>
       <a href="#sec-braille">braille</a>
+      <a href="#sec-emoji">emoji</a>
     </nav>
   </header>
 
@@ -276,11 +333,18 @@
     <div class="grid" id="grid-braille"></div>
   </section>
 
+  <section class="section" id="sec-emoji">
+    <p class="section-label">emoji</p>
+    <div class="grid" id="grid-emoji"></div>
+  </section>
+
 </div>
+
+<div class="toast" id="toast">¡copiado!</div>
 
 <div class="modal" id="modal">
   <pre class="modal-art" id="modal-art"></pre>
-  <span class="modal-hint">haz clic para cerrar</span>
+  <span class="modal-hint">clic para cerrar · esc</span>
 </div>
 
 <script>
@@ -319,28 +383,63 @@ const data = {
     `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠀⠃⣈⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣄⣀⡀⠙⠞⠁⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⢰⡏⢻⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⠟⣿⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⡐⡄⣸⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⣿⠀⠀⠀⠀⠀\n⠀⠀⣀⠠⢝⡜⣿⣿⡟⢉⣭⡝⢿⣿⣿⣿⡟⣭⣭⠉⢻⣿⡿⡠⠒⠀⠀⠀\n⡴⣟⣿⣻⣆⢰⣿⣿⠀⢸⣿⣿⢸⣿⣿⣿⠙⣿⣿⠇⠈⣿⣿⠱⠭⠄⠀⠀\n⢷⣿⡀⣸⣿⡞⣿⣿⣄⠀⠉⠁⣼⣿⢿⣿⣧⠈⠁⠀⣰⣿⣿⣠⣴⣶⣦⣄\n⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠒⠓⠒⠛⠛⠛⠛⠛⠛⠓⠻⡏⣿⣿⠿`,
     `⠀⠀⠀⠠⡶⠶⢤⣀⣠⣤⣤⣤⣀⣠⠶⠶⡆\n⠀⢿⣠⣾⣿⣿⣿⣿⣿⣿⣿⣦⣸⠃\n⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀\n⠠⢼⣿⡇⠰⣾⣿⣿⡇⡦⠀⣹⣿⠄\n⠀⢠⠿⣿⣶⣾⣿⣼⣿⣷⣿⠟⢥⠀\n⠀⠀⠀⠀⣨⣿⣭⣭⣽⣏⠀⠀⠀⠀\n⠀⠀⠀⠐⠿⣿⣿⣿⣿⡿⠇⠀⠀⠀\n⠀⠀⠀⠀⠠⣿⣿⢻⣿⡇⠀⠀⠀⠀`,
   ],
+
+  emoji: [
+    `🐱✨`,`🐈‍⬛💫`,`😺🌸`,`🐾💕`,`🐱🌙⭐`,
+    `😸✨💖`,`🐈🎀`,`😻💝`,`🐱🍵`,`🐈‍⬛🌑`,
+    `😺🐟`,`🐾🌿`,`🐱💤`,`😿🌧️`,`🐱🧶`,
+    `😼😈`,`🐈🌺🌸`,`🐱☕✨`,`😸🌈`,`🐾✨💫⭐`,
+    `🐱🫶`,`😺🍣`,`🐈🍂`,`🐱🫧`,
+  ],
 };
 
+// ── Generator ─────────────────────────────────────────────────────────────────
+
 const GEN = {
-  eyes:  ['ω','▽','◡','•','‥','←','♡','･','ᴗ','o','ˇ','◕','ᵵ','^','T'],
-  noses: ['ﻫ','ω','ᆀ','ᴥ','▿','~','^','◇','w','ᴜ','ꟈ'],
-  wraps: [
+  eyes:  ['ω','▽','◡','•','‥','ↀ','♡','･','ᴗ','o','ˇ','˘','◕','ᵕ','^','T','>'],
+  noses: ['ﻌ','ω','ᆽ','ᴥ','▿','∧','~','^','◇','w','ᗜ','ꞈ'],
+  wrappers: [
     ['(=^','  ^=)'],['(^','^)'],['(=','=)'],
-    ['≽^','^≼'],['/ᐠ','ᐡ\\'],['⦃ᐢ','ᐢ⦄'],
+    ['≽^','^≼'],['/ᐠ','ᐟ\\'],['₍ᐢ','ᐢ₎'],
+    ['ฅ^','^ฅ'],['/ᐠ','ᐡ\\'],['⦃ᐢ','ᐢ⦄'],
     ['ๅ^','^ๅ'],['≽','≼'],
   ],
+  pre: ['','','','ฅ','ヾ','ヽ'],
+  suf: ['','','','ฅ','ﾉ','丿'],
+  tops:  ['  /\\  /\\','  ∧  ∧'],
+  eyes2: ['( •  • )','( o  o )','( ^  ^ )','( ◕  ◕ )','( -  - )','( >  < )'],
+  noses2:['  (∧)  ','  (ω)  ','  (^)  ','  (~)  '],
+  bots:  ['  ( v ) ','  (_v_) ','  (___) ',' >^<    '],
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function generate() {
-  const e = pick(GEN.eyes);
-  const n = pick(GEN.noses);
-  const [l, r] = pick(GEN.wraps);
-  return `${l}${e}${n}${e}${r}`;
+  if (Math.random() < 0.75) {
+    const e = pick(GEN.eyes);
+    const n = pick(GEN.noses);
+    const [wl, wr] = pick(GEN.wrappers);
+    const pre = Math.random() < 0.3 ? pick(GEN.pre.filter(Boolean)) : '';
+    const suf = Math.random() < 0.3 ? pick(GEN.suf.filter(Boolean)) : '';
+    return `${pre}${wl}${e}${n}${e}${wr}${suf}`;
+  }
+  return `${pick(GEN.tops)}\n${pick(GEN.eyes2)}\n${pick(GEN.noses2)}\n${pick(GEN.bots)}`;
 }
 
-const modal = document.getElementById('modal');
+// ── Toast ─────────────────────────────────────────────────────────────────────
+
+const toast = document.getElementById('toast');
+let toastTimer;
+
+function showToast() {
+  clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+
+const modal    = document.getElementById('modal');
 const modalArt = document.getElementById('modal-art');
 
 function openModal(text) {
@@ -351,9 +450,9 @@ function closeModal() {
   modal.classList.remove('open');
 }
 modal.addEventListener('click', closeModal);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── Copy ──────────────────────────────────────────────────────────────────────
 
 function copyText(text, card) {
   navigator.clipboard.writeText(text).catch(() => {
@@ -367,22 +466,23 @@ function copyText(text, card) {
   });
   document.querySelectorAll('.card.copied').forEach(c => c.classList.remove('copied'));
   card.classList.add('copied');
-  setTimeout(() => card.classList.remove('copied'), 1200);
+  setTimeout(() => card.classList.remove('copied'), 1000);
+  showToast();
 }
 
-function makeCard(text, animate = false) {
+// ── Card factory ──────────────────────────────────────────────────────────────
+
+function makeCard(text, animate = false, index = 0) {
   const card = document.createElement('div');
   card.className = 'card' + (animate ? ' new' : '');
-
-  const flash = document.createElement('span');
-  flash.className = 'flash';
-  flash.textContent = '¡copiado!';
+  if (!animate) {
+    card.style.animationDelay = `${Math.min(index * 38, 560)}ms`;
+  }
 
   const art = document.createElement('span');
   art.className = 'art';
   art.textContent = text;
-
-  card.append(flash, art);
+  card.appendChild(art);
 
   let clickTimer = null;
   card.addEventListener('click', () => {
@@ -401,16 +501,16 @@ function makeCard(text, animate = false) {
   return card;
 }
 
+// ── Fit art to card ───────────────────────────────────────────────────────────
+
 function fitArt(card) {
   const art = card.querySelector('.art');
   if (!art) return;
   art.style.transform = '';
-  const availW = card.clientWidth - 24;
+  const availW = card.clientWidth  - 24;
   const availH = card.clientHeight - 24;
   if (availW <= 0 || availH <= 0) return;
-  const w = art.scrollWidth;
-  const h = art.scrollHeight;
-  const scale = Math.min(1, availW / w, availH / h);
+  const scale = Math.min(1, availW / art.scrollWidth, availH / art.scrollHeight);
   if (scale < 1) art.style.transform = `scale(${scale})`;
 }
 
@@ -418,14 +518,17 @@ function fitAll() {
   document.querySelectorAll('.card').forEach(fitArt);
 }
 
+// ── Render ────────────────────────────────────────────────────────────────────
+
 function render(key, gridId) {
   const grid = document.getElementById(gridId);
-  data[key].forEach(t => grid.appendChild(makeCard(t)));
+  data[key].forEach((t, i) => grid.appendChild(makeCard(t, false, i)));
 }
 
 render('kaomoji', 'grid-kaomoji');
 render('ascii',   'grid-ascii');
 render('braille', 'grid-braille');
+render('emoji',   'grid-emoji');
 
 requestAnimationFrame(fitAll);
 let resizeTimer;
@@ -433,6 +536,22 @@ window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(fitAll, 100);
 });
+
+// ── Scroll-spy nav ────────────────────────────────────────────────────────────
+
+const navLinks = document.querySelectorAll('nav a[href^="#sec-"]');
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const href = `#${e.target.id}`;
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === href));
+    }
+  });
+}, { rootMargin: '-25% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.section:not(#sec-generated)').forEach(s => spy.observe(s));
+
+// ── Generator button ──────────────────────────────────────────────────────────
 
 const genSection = document.getElementById('sec-generated');
 const genGrid    = document.getElementById('grid-generated');
@@ -442,7 +561,7 @@ document.querySelector('.btn-generate').addEventListener('click', () => {
   const card = makeCard(generate(), true);
   genGrid.prepend(card);
   genSection.style.display = 'block';
-  navGen.style.display = 'block';
+  navGen.style.display     = 'block';
   requestAnimationFrame(() => fitArt(card));
   genSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
